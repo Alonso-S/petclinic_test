@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import com.tecsup.petclinic.exception.OwnerNotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -70,5 +70,28 @@ public class SpecialtyServiceTest {
 		// Log para verificar el resultado
 		log.info("Propietario encontrado: {}", foundOwner);
 	}
+
+
+
+	@Test
+	public void testDeleteOwner() {
+		// Crear un propietario y guardarlo
+		Owner owner = new Owner();
+		owner.setFirstName("Carlos");
+		Owner savedOwner = ownerService.create(owner);
+
+		// Eliminar el propietario
+		ownerService.delete(savedOwner.getId());
+
+		// Verificar que el propietario ya no existe
+		assertThrows(OwnerNotFoundException.class, () -> {
+			ownerService.findById(savedOwner.getId());
+		}, "Debería lanzar una excepción al buscar un propietario eliminado");
+
+		// Log para verificar el resultado
+		log.info("Propietario eliminado: {}", savedOwner.getId());
+	}
+
+
 
 }
