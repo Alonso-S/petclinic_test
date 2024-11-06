@@ -52,4 +52,23 @@ public class SpecialtyServiceTest {
 		// Log para verificar el resultado
 		log.info("Propietario actualizado {}", updatedOwner );
 	}
+
+	@Test
+	public void testFindOwnerById() {
+		// Crear un propietario y guardarlo
+		Owner owner = new Owner();
+		owner.setFirstName("Carlos");
+		Owner savedOwner = ownerService.create(owner);
+
+		// Buscar el propietario por ID
+		Owner foundOwner = ownerService.findById(savedOwner.getId());
+
+		// Verificar que se encontró el propietario correcto
+		assertNotNull(foundOwner, "El propietario encontrado no debe ser nulo");
+		assertEquals(savedOwner.getId(), foundOwner.getId(), "Los IDs deben coincidir");
+
+		// Log para verificar el resultado
+		log.info("Propietario encontrado: {}", foundOwner);
+	}
+
 }
