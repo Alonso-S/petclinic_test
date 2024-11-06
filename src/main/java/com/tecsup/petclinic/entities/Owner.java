@@ -19,4 +19,5 @@ public class Owner {
     private String city;
     private String telephone;
 
+
 }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Slf4j
@@ -29,4 +29,25 @@ public class SpecialtyServiceTest {
 		// Log para verificar el resultado
         log.info("Propietario creado: {}", savedOwner);
 	}
+	@Test
+	public void testUpdateOwner() {
+		// Crear un propietario y guardarlo
+		Owner owner = new Owner();
+		owner.setFirstName("Carlos");
+		Owner savedOwner = ownerService.create(owner);
+
+		// Actualizar el propietario
+		savedOwner.setLastName("Pérez");
+		Owner updatedOwner = ownerService.update(savedOwner);
+
+		// Verificar que el propietario fue actualizado correctamente
+		assertNotNull(updatedOwner, "El propietario actualizado no debe ser nulo");
+		assertNotNull(updatedOwner.getId(), "El propietario debe tener un ID después de la actualización");
+		assertEquals("Pérez", updatedOwner.getLastName(), "El apellido del propietario debe ser Pérez");
+
+		// Log para verificar el resultado
+		log.info("Propietario actualizado: {}", updatedOwner);
+	}
+
+
 }
